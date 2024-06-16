@@ -21,5 +21,6 @@ export default function AppLayout(props:any){
             {props.children}
         </main>
         </div>
+        
     </div>
 }
