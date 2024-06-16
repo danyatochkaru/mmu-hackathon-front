@@ -34,14 +34,14 @@ export default async function Registration() {
                             </div>
                             <div className="flex flex-col space-y-1.5">
                                 <Label htmlFor="password">Пароль</Label>
-                                <Input id="password" required name={'password'} type="password"
+                                <Input id="password" minLength={6} required name={'password'} type="password"
                                        placeholder="Придумайте пароль..."/>
                             </div>
                             <AccountType/>
                         </div>
                     </CardContent>
                     <CardFooter className="footer">
-                        <Button>Зарегистрироваться</Button>
+                        <Button type={'submit'}>Зарегистрироваться</Button>
                         <a href={ROUTES.login} className="underline hover:opacity-80">У меня есть аккаунт</a>
                     </CardFooter>
                 </Card>

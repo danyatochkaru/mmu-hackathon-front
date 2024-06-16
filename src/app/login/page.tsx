@@ -6,6 +6,7 @@ import {ROUTES} from "@/constants/routes";
 import {auth, signIn} from "@/lib/auth";
 import {revalidatePath} from "next/cache";
 import {redirect} from "next/navigation";
+import {ERROR_NAMES} from "@/constants/error-messages";
 
 export default async function Auth() {
     const session = await auth()
@@ -19,9 +20,19 @@ export default async function Auth() {
             <form action={async (formData: FormData) => {
                 'use server'
 
-                const res = await signIn("credentials", formData)
+                const {email, password} = Object.fromEntries(formData)
 
-                console.log('ok', res)
+                await signIn("credentials", {
+                    email,
+                    password,
+                    redirect: false
+                })
+                    .catch((err: Error & { digest?: string }) => {
+                        console.error('err', err)
+                        if (!err.digest?.startsWith("NEXT_REDIRECT")) {
+                            redirect(`/login?errorMessage=${ERROR_NAMES.INVALID_CREDENTIALS}`)
+                        }
+                    })
 
                 revalidatePath(ROUTES.home)
                 redirect(ROUTES.home)

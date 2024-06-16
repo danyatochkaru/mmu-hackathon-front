@@ -3,5 +3,7 @@
     login: '/login',
     registration: '/reg',
     profile: '/profile',
-    stats: '/stats'
+    stats: '/stats',
+    application_list: '/application',
+    new_application: '/application/new'
 }
