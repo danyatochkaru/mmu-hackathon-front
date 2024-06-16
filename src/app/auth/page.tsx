@@ -41,7 +41,7 @@ export function AuthorisationForm() {
 }
 
 
-export default function auth(){
+export default function Auth(){
     return (
         <div className="container">
             <AuthorisationForm />

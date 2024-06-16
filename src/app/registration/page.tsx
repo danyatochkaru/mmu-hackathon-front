@@ -93,36 +93,7 @@ export function RegistrationForm() {
     )
 }
 
-export function AuthorisationForm() {
-    return (
-        <Card className="w-[350px]">
-            <CardHeader>
-                <CardTitle>Авторизация</CardTitle>
-            </CardHeader>
-            <CardContent>
-                <form>
-                    <div className="grid w-full items-center gap-4">
-                        <div className="flex flex-col space-y-1.5">
-                            <Label htmlFor="email">Почта</Label>
-                            <Input id="email" placeholder="Напишите почту..."/>
-                        </div>
-                        <div className="flex flex-col space-y-1.5">
-                            <Label htmlFor="password">Пароль</Label>
-                            <Input id="password" type="password" placeholder="Придумайте пароль..."/>
-                        </div>
-                    </div>
-                </form>
-            </CardContent>
-            <CardFooter className="footer">
-                <Button>Войти</Button>
-                <Button variant="outline">У меня нет аккаунта</Button>
-            </CardFooter>
-        </Card>
-    )
-}
-
-
-export default function registration(){
+export default function Registration(){
     return (
         <div className="container">
             <RegistrationForm />
