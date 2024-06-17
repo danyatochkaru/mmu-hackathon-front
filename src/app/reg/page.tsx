@@ -15,6 +15,16 @@ export default async function Registration() {
         redirect('/')
     }
 
+    const groups = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/groups`, {
+        headers: {
+            "Content-Type": "application/json",
+        },
+    })
+        .then(res => res.json())
+        .catch(err => {
+            console.error(err)
+        })
+
     return (
         <div className="container">
             <form action={registrationAction}>
@@ -26,18 +36,20 @@ export default async function Registration() {
                         <div className="grid w-full items-center gap-4">
                             <div className="flex flex-col space-y-1.5">
                                 <Label htmlFor="name">ФИО</Label>
-                                <Input id="name" required name={'full_name'} placeholder="Напишите ФИО..."/>
+                                <Input id="name" autoComplete={'name'} required name={'full_name'}
+                                       placeholder="Напишите ФИО..."/>
                             </div>
                             <div className="flex flex-col space-y-1.5">
                                 <Label htmlFor="email">Почта</Label>
-                                <Input id="email" required name={'email'} placeholder="Напишите почту..."/>
+                                <Input id="email" type={'email'} required name={'email'}
+                                       placeholder="Напишите почту..."/>
                             </div>
                             <div className="flex flex-col space-y-1.5">
                                 <Label htmlFor="password">Пароль</Label>
                                 <Input id="password" minLength={6} required name={'password'} type="password"
                                        placeholder="Придумайте пароль..."/>
                             </div>
-                            <AccountType/>
+                            <AccountType groups={groups.data.map((i: any) => ({id: i.id, group_name: i.group_name}))}/>
                         </div>
                     </CardContent>
                     <CardFooter className="footer">

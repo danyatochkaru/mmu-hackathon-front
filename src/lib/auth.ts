@@ -35,7 +35,7 @@ export const {handlers, signIn, signOut, auth} = NextAuth({
                 },
             },
             async authorize(credentials) {
-                const data = await fetch(process.env.BASE_URL + "/auth/local", {
+                const data = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "/auth/local", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -57,7 +57,7 @@ export const {handlers, signIn, signOut, auth} = NextAuth({
                     return null;
                 }
 
-                const _data = await fetch(process.env.BASE_URL + "/users/me?populate[0]=role", {
+                const _data = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "/users/me?populate[0]=role", {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",

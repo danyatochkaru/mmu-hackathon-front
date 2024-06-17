@@ -6,9 +6,9 @@ import {Input} from "@/components/ui/input";
 import {useState} from "react";
 
 
-type valueType = "student" | "company" | "rop" | "admin" | null;
+type valueType = "student" | "partner" | "rop" | "admin" | null;
 
-export default function AccountType() {
+export default function AccountType({groups}: { groups: { id: number, group_name: string }[] }) {
     const [selectedValue, setSelectedValue] = useState<valueType>(null);
     return <>
         <div className="flex flex-col space-y-1.5">
@@ -26,18 +26,23 @@ export default function AccountType() {
                 </SelectTrigger>
                 <SelectContent position="popper">
                     <SelectItem value="student">Студент</SelectItem>
-                    <SelectItem value="company">Компания</SelectItem>
+                    <SelectItem value="partner">Компания</SelectItem>
                     <SelectItem value="rop">РОП</SelectItem>
                     <SelectItem value="admin">Администратор</SelectItem>
                 </SelectContent>
             </Select>
         </div>
         {
-            selectedValue === 'company' && (
-                <div className="flex flex-col space-y-1.5">
-                    <Label htmlFor="companyName">Название компании</Label>
-                    <Input id="companyName" required name={'company_name'} placeholder="Напишите название компании..."/>
-                </div>
+            selectedValue === 'partner' && (<>
+                    <div className="flex flex-col space-y-1.5">
+                        <Label htmlFor="companyName">Название компании</Label>
+                        <Input id="companyName" required name={'company_name'} placeholder="Напишите название компании..."/>
+                    </div>
+                    <div className="flex flex-col space-y-1.5">
+                        <Label htmlFor="phoneNumber">Номер телефона</Label>
+                        <Input id="phoneNumber" required name={'phone_number'} placeholder="Напишите номер телефона..."/>
+                    </div>
+                </>
             )
         }
         {
@@ -52,8 +57,9 @@ export default function AccountType() {
                             <SelectValue placeholder="Выберите группу"/>
                         </SelectTrigger>
                         <SelectContent position="popper">
-                            <SelectItem value="ips311-1">ИПС311-1</SelectItem>
-                            <SelectItem value="ips311-2">ИПС311-2</SelectItem>
+                            {groups.map(group => (
+                                <SelectItem key={group.id} value={String(group.id)}>{group.group_name}</SelectItem>
+                            ))}
                         </SelectContent>
                     </Select>
                 </div>
