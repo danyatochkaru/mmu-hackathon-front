@@ -8,7 +8,7 @@ export default async function Home() {
     const session = await auth()
 
 
-    const data = await fetch(`${process.env.BASE_URL}/applications?${qs.stringify({populate: '*'})}`, {
+    const data = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/applications?${qs.stringify({populate: '*'})}`, {
         headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${session?.user.token}`
@@ -31,7 +31,7 @@ export default async function Home() {
             <TableBody>
                 {
                     data.data.map((app: any) => {
-                        const link = `${ROUTES.application_list}/${app.id}`
+                        const link = `${ROUTES.application}/${app.id}`
                         return <TableRow key={app.company_name}>
                             <TableCell className="font-medium">
                                 <Link href={link}>

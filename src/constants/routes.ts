@@ -4,6 +4,6 @@
     registration: '/reg',
     profile: '/profile',
     stats: '/stats',
-    application_list: '/application',
-    new_application: '/application/new'
+    new_application: '/application/new',
+    application: '/application' /* + "/:id" */,
 }

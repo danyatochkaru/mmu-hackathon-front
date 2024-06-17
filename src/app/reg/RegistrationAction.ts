@@ -11,7 +11,7 @@ export async function registrationAction(formData: FormData) {
 
     const {full_name, email, password} = Object.fromEntries(formData)
 
-    const res = await fetch(`${process.env.BASE_URL!}/auth/local/register`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL!}/auth/local/register`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

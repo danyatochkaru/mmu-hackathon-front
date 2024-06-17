@@ -5,7 +5,7 @@ import qs from "qs";
 export default async function Profile() {
     const session = await auth()
 
-    const data = await fetch(`${process.env.BASE_URL}/users/me?populate=*`, {
+    const data = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/users/me?populate=*`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -20,7 +20,7 @@ export default async function Profile() {
     const additional_data: Record<'key' | 'value', string>[] = []
 
     if (data.role.name === 'Student') {
-        const _data = await fetch(`${process.env.BASE_URL}/students?${qs.stringify({
+        const _data = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/students?${qs.stringify({
             populate: '*',
             filters: {
                 users_permissions_user: {
@@ -43,12 +43,12 @@ export default async function Profile() {
 
         additional_data.push({
             key: "Группа",
-            value: _data.data[0].group.group_name
+            value: _data.data[0]?.group.group_name
         })
     }
 
     if (data.role.name === 'Partner') {
-        const _data = await fetch(`${process.env.BASE_URL}/partners?${qs.stringify({
+        const _data = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/partners?${qs.stringify({
             populate: '*',
             filters: {
                 users_permissions_user: {

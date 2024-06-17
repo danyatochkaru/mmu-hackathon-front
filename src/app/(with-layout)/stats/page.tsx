@@ -2,9 +2,6 @@
 import {auth} from "@/lib/auth";
 import qs from "qs";
 
-let studentsCount = 156;
-let requestCount = 176;
-
 export default async function Stats() {
     const session = await auth()
 
@@ -12,7 +9,7 @@ export default async function Stats() {
         pagination: {limit: 1}
     })
 
-    const studentsData = await fetch(`${process.env.BASE_URL}/students?${queryData}`, {
+    const studentsData = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/students?${queryData}`, {
         headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${session?.user.token}`
@@ -23,7 +20,7 @@ export default async function Stats() {
             console.error(err)
         })
 
-    const applicationsData = await fetch(`${process.env.BASE_URL}/applications?${queryData}`, {
+    const applicationsData = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/applications?${queryData}`, {
         headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${session?.user.token}`

@@ -2,7 +2,8 @@ import type {Metadata} from "next";
 import {Inter as FontSans} from "next/font/google";
 import "./globals.css";
 import {cn} from "@/lib/utils";
-import NotifyProvider from "@/app/NotifyProvider";
+import Providers from "@/app/Providers";
+import {auth} from "@/lib/auth";
 
 const fontSans = FontSans({
     subsets: ["latin", "cyrillic"],
@@ -13,11 +14,12 @@ export const metadata: Metadata = {
     title: "ММУ Партнёр"
 };
 
-export default function RootLayout({
-                                       children,
-                                   }: Readonly<{
+export default async function RootLayout({
+                                             children,
+                                         }: Readonly<{
     children: React.ReactNode;
 }>) {
+    const session = await auth()
     return (
         <html lang="ru">
         <body
@@ -26,9 +28,9 @@ export default function RootLayout({
                 fontSans.variable
             )}
         >
-        <NotifyProvider>
+        <Providers session={session!}>
             {children}
-        </NotifyProvider>
+        </Providers>
         </body>
         </html>
     );

@@ -3,11 +3,19 @@ import {PropsWithChildren} from "react";
 import Link from "next/link";
 import {auth, signOut} from "@/lib/auth";
 import {ROUTES} from "@/constants/routes";
+import Header from "@/app/(with-layout)/Header";
+
+const links = [
+    {name: "Заявки", href: ROUTES.home},
+    {name: "Создать заявку", href: ROUTES.new_application},
+    {name: "Статистика и отчетность", href: ROUTES.stats},
+]
+
 
 export default async function AppLayout(props: PropsWithChildren) {
     const session = await auth()
 
-    const data = await fetch(`${process.env.BASE_URL}/users/me?populate=*`, {
+    const data = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/users/me?populate=*`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -18,12 +26,6 @@ export default async function AppLayout(props: PropsWithChildren) {
         .catch(err => {
             console.error(err)
         })
-
-    const links = [
-        {name: "Заявки", href: ROUTES.home},
-        {name: "Создать заявку", href: ROUTES.new_application},
-        {name: "Статистика и отчетность", href: ROUTES.stats},
-    ]
 
     return <div className="flex">
         <nav className="w-80 border-r-4 h-dvh bg-[#C0C0C0] flex flex-col">
@@ -56,9 +58,7 @@ export default async function AppLayout(props: PropsWithChildren) {
             </div>
         </nav>
         <div className="w-full">
-            <header className="p-3 border-b-2">
-                <span className="text-lg font-semibold">Заявки</span>
-            </header>
+            <Header/>
             <main className={'p-6'}>
                 {props.children}
             </main>
