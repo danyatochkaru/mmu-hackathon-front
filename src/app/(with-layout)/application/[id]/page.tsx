@@ -31,8 +31,6 @@ export default async function ApplicationPage({params}: { params: { id: string }
             console.error(err)
         })
 
-    console.log(data.data.responses[0])
-
     return <div className="p-3 flex flex-col gap-y-4">
         <div className={'flex items-center gap-x-2'}>
             <h2 className="font-semibold text-2xl">{data.data.partner.company_name}</h2>

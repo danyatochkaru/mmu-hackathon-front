@@ -22,10 +22,6 @@ export default async function NewApplicationAction(formData: FormData) {
         paid_internship,
     } = Object.fromEntries(formData)
 
-    console.log(Object.fromEntries(formData))
-
-    // return
-
     const session = await auth()
 
     const partnerData = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/partners?${qs.stringify({
@@ -74,8 +70,6 @@ export default async function NewApplicationAction(formData: FormData) {
         .catch(err => {
             console.error(err)
         })
-
-    console.log(data)
 
     revalidatePath(`http://localhost:3000/application/${data.data.id}`)
     redirect(`http://localhost:3000/application/${data.data.id}`)
