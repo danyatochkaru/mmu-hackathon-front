@@ -27,9 +27,7 @@ export default async function ApplicationPage({params}: { params: { id: string }
         .catch(err => {
             console.error(err)
         })
-
-    console.log(meData)
-
+    
     return <div className="p-3 flex flex-col gap-y-4">
         <div className="font-semibold text-2xl">{data.data.partner.company_name}</div>
         {
