@@ -16,18 +16,6 @@ export default async function ApplicationPage({params}: { params: { id: string }
             console.error(err)
         })
 
-    const meData = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/users/me?populate=*`, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${session?.user.token}`
-        }
-    })
-        .then(res => res.json())
-        .catch(err => {
-            console.error(err)
-        })
-    
     return <div className="p-3 flex flex-col gap-y-4">
         <div className="font-semibold text-2xl">{data.data.partner.company_name}</div>
         {
