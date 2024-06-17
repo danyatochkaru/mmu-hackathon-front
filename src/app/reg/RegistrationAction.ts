@@ -15,7 +15,8 @@ registrationAction(formData: FormData) {
         account_type,
         student_group,
         company_name,
-        phone_number
+        phone_number,
+        rop_direction
     } = Object.fromEntries(formData) as Record<string, string>
 
     const data = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL!}/auth/local/register`, {
@@ -97,6 +98,24 @@ registrationAction(formData: FormData) {
                     company_name: company_name,
                     position: 'test',
                     phone_number: phone_number,
+                    users_permissions_user: data.user.id
+                }
+            })
+        })
+            .then(res => res.json())
+            .catch(err => console.error(err))
+    }
+
+    if (account_type === 'rop') {
+        await fetch(`${process.env.NEXT_PUBLIC_BASE_URL!}/rops`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${data.jwt}`
+            },
+            body: JSON.stringify({
+                data: {
+                    direction: rop_direction,
                     users_permissions_user: data.user.id
                 }
             })

@@ -8,7 +8,10 @@ import {useState} from "react";
 
 type valueType = "student" | "partner" | "rop" | "admin" | null;
 
-export default function AccountType({groups}: { groups: { id: number, group_name: string }[] }) {
+export default function AccountType({groups, directions}: {
+    groups: { id: number, group_name: string }[],
+    directions: { id: number, direction_name: string }[]
+}) {
     const [selectedValue, setSelectedValue] = useState<valueType>(null);
     return <>
         <div className="flex flex-col space-y-1.5">
@@ -58,7 +61,28 @@ export default function AccountType({groups}: { groups: { id: number, group_name
                         </SelectTrigger>
                         <SelectContent position="popper">
                             {groups.map(group => (
-                                <SelectItem key={group.id} value={String(group.id)}>{group.group_name}</SelectItem>
+                                <SelectItem key={group.group_name} value={String(group.id)}>{group.group_name}</SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                </div>
+            )
+        }
+        {
+            selectedValue === 'rop' && (
+                <div className="flex flex-col space-y-1.5">
+                    <Label htmlFor="group">Направление</Label>
+                    <Select
+                        name={'rop_direction'}
+                        required
+                    >
+                        <SelectTrigger id="direction">
+                            <SelectValue placeholder="Выберите группу"/>
+                        </SelectTrigger>
+                        <SelectContent position="popper">
+                            {directions.map(group => (
+                                <SelectItem key={group.direction_name}
+                                            value={String(group.id)}>{group.direction_name}</SelectItem>
                             ))}
                         </SelectContent>
                     </Select>
