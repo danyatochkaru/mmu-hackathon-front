@@ -16,7 +16,8 @@ registrationAction(formData: FormData) {
         student_group,
         company_name,
         phone_number,
-        rop_direction
+        rop_direction,
+        position
     } = Object.fromEntries(formData) as Record<string, string>
 
     const data = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL!}/auth/local/register`, {
@@ -96,7 +97,7 @@ registrationAction(formData: FormData) {
             body: JSON.stringify({
                 data: {
                     company_name: company_name,
-                    position: 'test',
+                    position: position,
                     phone_number: phone_number,
                     users_permissions_user: data.user.id
                 }

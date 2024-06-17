@@ -42,6 +42,10 @@ export default function AccountType({groups, directions}: {
                         <Input id="companyName" required name={'company_name'} placeholder="Напишите название компании..."/>
                     </div>
                     <div className="flex flex-col space-y-1.5">
+                        <Label htmlFor="position">Должность</Label>
+                        <Input id="position" required name={'position'} placeholder="Напишите вашу должность..."/>
+                    </div>
+                    <div className="flex flex-col space-y-1.5">
                         <Label htmlFor="phoneNumber">Номер телефона</Label>
                         <Input id="phoneNumber" required name={'phone_number'} placeholder="Напишите номер телефона..."/>
                     </div>
@@ -77,7 +81,7 @@ export default function AccountType({groups, directions}: {
                         required
                     >
                         <SelectTrigger id="direction">
-                            <SelectValue placeholder="Выберите группу"/>
+                            <SelectValue placeholder="Выберите направление"/>
                         </SelectTrigger>
                         <SelectContent position="popper">
                             {directions.map(group => (
