@@ -31,13 +31,16 @@ export default async function AppLayout(props: PropsWithChildren) {
 
     return <div className="flex">
         <nav className="w-80 min-w-56 border-r-4 h-dvh bg-[#C0C0C0] flex flex-col">
-            <div className="bg-[#ffd600] p-4">
-                <h4 className="scroll-m-20 text-md font-semibold tracking-tight">
-                    <Link href={'/profile'}>{data.username}</Link>
-                </h4>
-                <p className="text-sm text-muted-foreground"><Link
-                    href={"/profile"}>{data.role.description}</Link></p>
-            </div>
+            <Link href={'/profile'}>
+                <div className="bg-[#ffd600] p-4">
+                    <h4 className="scroll-m-20 text-md font-semibold tracking-tight">
+                        {data.username}
+                    </h4>
+                    <p className="text-sm text-muted-foreground">
+                        {data.role.description}
+                    </p>
+                </div>
+            </Link>
             <div className="flex flex-col px-1 py-2 gap-y-2 flex-1">
                 {links
                     .filter(i => i.view_for.includes(data.role.type))
