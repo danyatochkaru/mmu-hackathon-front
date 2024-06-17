@@ -6,9 +6,9 @@ import {ROUTES} from "@/constants/routes";
 import Header from "@/app/(with-layout)/Header";
 
 const links = [
-    {name: "Заявки", href: ROUTES.home},
-    {name: "Создать заявку", href: ROUTES.new_application},
-    {name: "Статистика и отчетность", href: ROUTES.stats},
+    {name: "Заявки", href: ROUTES.home, view_for: ['student', 'partner', 'admin', 'rop']},
+    {name: "Создать заявку", href: ROUTES.new_application, view_for: ['partner']},
+    {name: "Статистика и отчетность", href: ROUTES.stats, view_for: ['admin', 'rop']},
 ]
 
 
@@ -28,7 +28,7 @@ export default async function AppLayout(props: PropsWithChildren) {
         })
 
     return <div className="flex">
-        <nav className="w-80 border-r-4 h-dvh bg-[#C0C0C0] flex flex-col">
+        <nav className="w-80 min-w-56 border-r-4 h-dvh bg-[#C0C0C0] flex flex-col">
             <div className="bg-[#ffd600] p-4">
                 <h4 className="scroll-m-20 text-md font-semibold tracking-tight">
                     <Link href={'/profile'}>{data.username}</Link>
@@ -37,13 +37,15 @@ export default async function AppLayout(props: PropsWithChildren) {
                     href={"/profile"}>{data.role.description}</Link></p>
             </div>
             <div className="flex flex-col px-1 py-2 gap-y-2 flex-1">
-                {links.map(link => (
-                    <Link key={link.name} href={link.href}>
-                        <Button className="bg-[#FFFFFF] w-full justify-start">
-                            {link.name}
-                        </Button>
-                    </Link>
-                ))}
+                {links
+                    .filter(i => i.view_for.includes(data.role.type))
+                    .map(link => (
+                        <Link key={link.name} href={link.href}>
+                            <Button className="bg-[#FFFFFF] w-full justify-start">
+                                {link.name}
+                            </Button>
+                        </Link>
+                    ))}
                 <form
                     className="w-full mt-auto"
                     action={async () => {

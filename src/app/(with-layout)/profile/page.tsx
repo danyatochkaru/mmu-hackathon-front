@@ -75,6 +75,34 @@ export default async function Profile() {
         })
     }
 
+    if (data.role.name === 'Rop') {
+        const _data = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/rops?${qs.stringify({
+            populate: '*',
+            filters: {
+                users_permissions_user: {
+                    id: {
+                        '$eq': data.id
+                    }
+                }
+            }
+        })}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${session?.user.token}`
+            }
+        })
+            .then(res => res.json())
+            .catch(err => {
+                console.error(err)
+            })
+        
+        additional_data.push({
+            key: "Направление",
+            value: _data.data[0].direction.direction_name
+        })
+    }
+
 
     return (
         <div>

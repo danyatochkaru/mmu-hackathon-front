@@ -25,6 +25,16 @@ export default async function Registration() {
             console.error(err)
         })
 
+    const directions = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/directions`, {
+        headers: {
+            "Content-Type": "application/json",
+        },
+    })
+        .then(res => res.json())
+        .catch(err => {
+            console.error(err)
+        })
+
     return (
         <div className="auth_container">
             <form action={registrationAction}>
@@ -49,7 +59,12 @@ export default async function Registration() {
                                 <Input id="password" minLength={6} required name={'password'} type="password"
                                        placeholder="Придумайте пароль..."/>
                             </div>
-                            <AccountType groups={groups.data.map((i: any) => ({id: i.id, group_name: i.group_name}))}/>
+                            <AccountType
+                                directions={directions.data.map((i: any) => ({
+                                    id: i.id,
+                                    direction_name: i.direction_name
+                                }))}
+                                groups={groups.data.map((i: any) => ({id: i.id, group_name: i.group_name}))}/>
                         </div>
                     </CardContent>
                     <CardFooter className="auth_footer">

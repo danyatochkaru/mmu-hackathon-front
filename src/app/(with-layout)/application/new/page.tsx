@@ -1,26 +1,38 @@
-import { Textarea } from "@/components/ui/textarea"
-import { DatePickerWithRange } from "./DateRangePicker"
-import { SelectScrollable } from "./ScrollableSelect"
-import { Input } from "@/components/ui/input"
+import {Textarea} from "@/components/ui/textarea"
+import {SelectScrollable} from "./ScrollableSelect"
+import {Input} from "@/components/ui/input"
+import {Button} from "@/components/ui/button";
+import DateWithType from "@/app/(with-layout)/application/new/DateWithType";
+import NewApplicationAction from "@/app/(with-layout)/application/new/NewApplication.action";
 
-export default function TextareaDemo() {
-  return  <div className="p-3 flex flex-col gap-y-4">
-  <div>
-    <p className="text-sm text-muted-foreground text-lg">Описание задачи</p>
-    <Textarea placeholder="Введите описание задачи"/>
-</div>
-<div>
-    <p className="text-sm text-muted-foreground text-lg">Требования к студентам</p>
-    <Textarea placeholder="Введите требования к студентам"/>
-</div>
-<div><p className="text-sm text-muted-foreground text-lg">Направление</p>
-      <SelectScrollable/>
-      </div>
-      <div><p className="text-sm text-muted-foreground text-lg">Количество студентов</p>
-      <Input min={1} type="number" placeholder="Введите число студентов" />
-      </div>
-      <div><p className="text-sm text-muted-foreground text-lg">Сроки</p>
-      <DatePickerWithRange/>
-      </div> 
-</div>
+export default function NewApplicationPage() {
+    return <form className="max-w-7xl p-3 flex flex-col gap-y-4" action={NewApplicationAction}>
+        <div>
+            <p className="text-muted-foreground text-md">Описание задачи</p>
+            <Textarea name={'description'} required placeholder="Введите описание задачи"/>
+        </div>
+        <div>
+            <p className="text-muted-foreground text-md">Требования к студентам</p>
+            <Textarea name={'requirements'} required placeholder="Введите требования к студентам"/>
+        </div>
+        <div className={'flex gap-4 flex-wrap'}>
+            <div>
+                <p className="text-muted-foreground text-md">Направление</p>
+                <SelectScrollable/>
+            </div>
+            <div>
+                <p className="text-muted-foreground text-md">Количество студентов</p>
+                <Input name={'students_count'} className={'min-w-[300px]'} min={1} type="number"
+                       placeholder="Введите число студентов"/>
+            </div>
+        </div>
+        <DateWithType practice_dates={[new Date().toISOString(), new Date().toISOString()]}/>
+        <div>
+            <p className="text-muted-foreground text-md">Результаты стажировки (необязательно)</p>
+            <Textarea name={'results'} placeholder="Введите результаты стажировки"/>
+        </div>
+        <div>
+            <Button type={'submit'}>Создать</Button>
+        </div>
+    </form>
 }
