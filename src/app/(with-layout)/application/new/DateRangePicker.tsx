@@ -13,10 +13,13 @@ import {ru} from "date-fns/locale/ru";
 
 export function DatePickerWithRange({
                                         className,
-                                    }: React.HTMLAttributes<HTMLDivElement>) {
+                                        defaultDates
+                                    }: React.HTMLAttributes<HTMLDivElement> & {
+    defaultDates?: { from?: Date, to?: Date }
+}) {
     const [date, setDate] = React.useState<DateRange | undefined>({
-        from: new Date(),
-        to: addDays(new Date(), 14),
+        from: defaultDates?.from ?? new Date(),
+        to: defaultDates?.to ?? addDays(new Date(), 14),
     })
 
     return (

@@ -12,8 +12,8 @@ const links = [
     {name: "Создать заявку", href: ROUTES.new_application, view_for: ['partner']},
     {name: "Даты практик", href: ROUTES.dates, view_for: ['rop']},
     {name: "Статистика и отчетность", href: ROUTES.stats, view_for: ['admin', 'rop']},
-    
-   
+
+
 ]
 
 
@@ -33,7 +33,7 @@ export default async function AppLayout(props: PropsWithChildren) {
         })
 
     return <div className="flex">
-        <nav className="w-80 min-w-56 border-r-4 h-dvh bg-[#C0C0C0] flex flex-col">
+        <nav className="w-80 min-w-56 border-r-4 h-dvh bg-[#C0C0C0] flex flex-col sticky top-0">
             <Link href={'/profile'}>
                 <div className="bg-[#ffd600] p-4">
                     <h4 className="scroll-m-20 text-md font-semibold tracking-tight">
