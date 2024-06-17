@@ -45,6 +45,24 @@ export default async function NewApplicationAction(formData: FormData) {
             console.error(err)
         })
 
+    const statusesData = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/statuses?${qs.stringify({
+        filters: {
+            status_name: {
+                '$eq': 'Новая'
+            }
+        }
+    })}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${session?.user.token}`
+        }
+    })
+        .then(res => res.json())
+        .catch(err => {
+            console.error(err)
+        })
+
     const data = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/applications`, {
         method: 'POST',
         headers: {
@@ -62,7 +80,8 @@ export default async function NewApplicationAction(formData: FormData) {
                 paid_internship: paid_internship === 'on',
                 results: results || undefined,
                 partner: partnerData?.data[0]?.id,
-                direction: (direction as string).split('-')[0]
+                direction: (direction as string).split('-')[0],
+                status: statusesData.data[0]?.id
             }
         })
     })

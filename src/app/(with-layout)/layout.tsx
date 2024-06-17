@@ -4,6 +4,8 @@ import Link from "next/link";
 import {auth, signOut} from "@/lib/auth";
 import {ROUTES} from "@/constants/routes";
 import Header from "@/app/(with-layout)/Header";
+import {revalidatePath} from "next/cache";
+import {redirect} from "next/navigation";
 
 const links = [
     {name: "Заявки", href: ROUTES.home, view_for: ['student', 'partner', 'admin', 'rop']},
@@ -50,7 +52,10 @@ export default async function AppLayout(props: PropsWithChildren) {
                     className="w-full mt-auto"
                     action={async () => {
                         "use server"
-                        await signOut()
+                        await signOut({redirect: false})
+
+                        revalidatePath(ROUTES.login)
+                        redirect(ROUTES.login)
                     }}
                 >
                     <Button className={'w-full justify-start'} variant={'destructive'}>

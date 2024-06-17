@@ -3,6 +3,7 @@ import qs from "qs";
 import {Button} from "@/components/ui/button";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
 import {Badge} from "@/components/ui/badge";
+import ChangeStatusWindow from "@/app/(with-layout)/application/[id]/ChangeStatusWindow";
 
 export default async function ApplicationPage({params}: { params: { id: string } }) {
     const session = await auth()
@@ -31,6 +32,17 @@ export default async function ApplicationPage({params}: { params: { id: string }
             console.error(err)
         })
 
+    const statusesData = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/statuses`, {
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${session?.user.token}`
+        },
+    })
+        .then(res => res.json())
+        .catch(err => {
+            console.error(err)
+        })
+
     return <div className="p-3 flex flex-col gap-y-4">
         <div className={'flex items-center gap-x-2'}>
             <h2 className="font-semibold text-2xl">{data.data.partner.company_name}</h2>
@@ -38,8 +50,7 @@ export default async function ApplicationPage({params}: { params: { id: string }
         </div>
         {
             session?.user.type === 'Студент'
-                ?
-                (
+                ? (
                     (data.data.status.status_name === 'Отозвано'
                         || data.data.status.status_name === 'Заблокировано'
                         || data.data.status.status_name === 'Закрыто')
@@ -48,26 +59,16 @@ export default async function ApplicationPage({params}: { params: { id: string }
                 )
                 : <div className={"flex gap-x-2"}>
                     {
-                        (session?.user.type === 'Партнёр' || session?.user.type === 'Администратор') &&
-                        (
-                            <>
-                                {
-                                    data.data.status.status_name === 'Открыто'
-                                        ? <Button size={'sm'} className="text-sm w-fit">Закрыть</Button>
-                                        : <Button size={'sm'} className="text-sm w-fit">Открыть</Button>
-                                }
-                                <Button size={'sm'} className="text-sm w-fit">Скопировать</Button>
-                            </>
-                        )
+                        (session?.user.type === 'Руководитель отделения практики' || session?.user.type === 'Администратор') &&
+                        <ChangeStatusWindow
+                            currentStatusId={data.data.status.id}
+                            statuses={statusesData.data.map((i: any) => ({id: i.id, name: i.status_name}))}>
+                            <Button size={'sm'}>Сменить статус</Button>
+                        </ChangeStatusWindow>
                     }
                     {
-                        (session?.user.type === 'Руководитель отделения практики' || session?.user.type === 'Администратор') &&
-                        (
-                            <>
-                                <Button size={'sm'} className="text-sm w-fit">Отозвать</Button>
-                                <Button size={'sm'} className="text-sm w-fit">Заблокировать</Button>
-                            </>
-                        )
+                        (session?.user.type === 'Партнёр' || session?.user.type === 'Администратор') &&
+                        (<Button size={'sm'} className="text-sm w-fit">Скопировать</Button>)
                     }
                     <Button size={'sm'} className="text-sm w-fit">Изменить</Button>
                     <Button size={'sm'} className="text-sm w-fit">Удалить</Button>
@@ -95,37 +96,41 @@ export default async function ApplicationPage({params}: { params: { id: string }
             <p className="font-medium leading-none text-md">с {new Date(data.data.start_date).toLocaleDateString()} по {new Date(data.data.end_date).toLocaleDateString()}</p>
         </div>}
         {session?.user.type !== 'Студент'
-            && <Table className="max-w-7xl">
-                <TableHeader className="bg-[#ffd600]">
-                    <TableRow>
-                        <TableHead className="w-80 text-black">ФИО студента</TableHead>
-                        <TableHead className="text-black">Группа</TableHead>
-                        <TableHead className="text-black">Направление</TableHead>
-                        <TableHead className="text-black">Статус</TableHead>
-                        <TableHead className="text-right w-48 text-black">Дата подачи отклика</TableHead>
-                    </TableRow>
-                </TableHeader>
-                <TableBody>
-                    {data.data.responses.map((i: any) => (
-                        <TableRow key={i.id}>
-                            <TableCell className="font-medium">{i.student.users_permissions_user.username}</TableCell>
-                            <TableCell>{i.student.group.group_name}</TableCell>
-                            <TableCell>{i.student.group.direction.direction_name}</TableCell>
-                            <TableCell>{i.response_status.response_status}</TableCell>
-                            <TableCell
-                                className="text-right w-48">
-                                {new Date(i.createdAt as string).toLocaleString('ru', {
-                                    timeZone: 'Europe/Moscow',
-                                    day: 'numeric',
-                                    month: 'numeric',
-                                    year: 'numeric',
-                                    hour: '2-digit',
-                                    minute: '2-digit'
-                                })}
-                            </TableCell>
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>}
+            && (data.data.responses.length > 0
+                    ? <Table className="max-w-7xl">
+                        <TableHeader className="bg-[#ffd600]">
+                            <TableRow>
+                                <TableHead className="w-80 text-black">ФИО студента</TableHead>
+                                <TableHead className="text-black">Группа</TableHead>
+                                <TableHead className="text-black">Направление</TableHead>
+                                <TableHead className="text-black">Статус</TableHead>
+                                <TableHead className="text-right w-48 text-black">Дата подачи отклика</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {data.data.responses.map((i: any) => (
+                                <TableRow key={i.id}>
+                                    <TableCell
+                                        className="font-medium">{i.student.users_permissions_user.username}</TableCell>
+                                    <TableCell>{i.student.group.group_name}</TableCell>
+                                    <TableCell>{i.student.group.direction.direction_name}</TableCell>
+                                    <TableCell>{i.response_status.response_status}</TableCell>
+                                    <TableCell
+                                        className="text-right w-48">
+                                        {new Date(i.createdAt as string).toLocaleString('ru', {
+                                            timeZone: 'Europe/Moscow',
+                                            day: 'numeric',
+                                            month: 'numeric',
+                                            year: 'numeric',
+                                            hour: '2-digit',
+                                            minute: '2-digit'
+                                        })}
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                    : <p className="leading-7 [&:not(:first-child)]:mt-6">Пока ещё никто не оставил отклик</p>
+            )}
     </div>;
 }
