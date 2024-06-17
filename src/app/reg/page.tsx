@@ -26,7 +26,7 @@ export default async function Registration() {
         })
 
     return (
-        <div className="container">
+        <div className="auth_container">
             <form action={registrationAction}>
                 <Card className="w-[350px]">
                     <CardHeader>
@@ -52,7 +52,7 @@ export default async function Registration() {
                             <AccountType groups={groups.data.map((i: any) => ({id: i.id, group_name: i.group_name}))}/>
                         </div>
                     </CardContent>
-                    <CardFooter className="footer">
+                    <CardFooter className="auth_footer">
                         <Button type={'submit'}>Зарегистрироваться</Button>
                         <a href={ROUTES.login} className="underline hover:opacity-80">У меня есть аккаунт</a>
                     </CardFooter>

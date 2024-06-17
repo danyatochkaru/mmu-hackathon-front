@@ -16,15 +16,57 @@ export default async function ApplicationPage({params}: { params: { id: string }
             console.error(err)
         })
 
+    const meData = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/users/me?populate=*`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${session?.user.token}`
+        }
+    })
+        .then(res => res.json())
+        .catch(err => {
+            console.error(err)
+        })
+    
     return <div className="p-3 flex flex-col gap-y-4">
         <div className="font-semibold text-2xl">{data.data.partner.company_name}</div>
         {
             session?.user.type === 'Студент'
-                ? <Button size={'sm'} className="text-sm w-fit">Откликнуться</Button>
+                ?
+                (
+                    (data.data.status.status_name === 'Отозвано'
+                        || data.data.status.status_name === 'Заблокировано'
+                        || data.data.status.status_name === 'Закрыто')
+                        ? <p>Набор на данную практику закончился</p>
+                        : <Button size={'sm'} className="text-sm w-fit">Откликнуться</Button>
+                )
                 : <div className={"flex gap-x-2"}>
+                    {
+                        (session?.user.type === 'Партнёр' || session?.user.type === 'Администратор') &&
+                        (
+                            <>
+                                {
+                                    data.data.status.status_name === 'Открыто'
+                                        ? <Button size={'sm'} className="text-sm w-fit">Закрыть</Button>
+                                        : <Button size={'sm'} className="text-sm w-fit">Открыть</Button>
+                                }
+                                <Button size={'sm'} className="text-sm w-fit">Скопировать</Button>
+                            </>
+                        )
+                    }
+                    {
+                        (session?.user.type === 'Руководитель отделения практики' || session?.user.type === 'Администратор') &&
+                        (
+                            <>
+                                <Button size={'sm'} className="text-sm w-fit">Отозвать</Button>
+                                <Button size={'sm'} className="text-sm w-fit">Заблокировать</Button>
+                            </>
+                        )
+                    }
                     <Button size={'sm'} className="text-sm w-fit">Изменить</Button>
                     <Button size={'sm'} className="text-sm w-fit">Удалить</Button>
                 </div>
+
         }
         <div>
             <p className="text-muted-foreground text-sm">Описание задачи</p>

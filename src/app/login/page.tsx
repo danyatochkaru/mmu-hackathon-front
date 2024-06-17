@@ -16,7 +16,7 @@ export default async function Auth() {
     }
 
     return (
-        <div className="container">
+        <div className="auth_container">
             <form action={async (formData: FormData) => {
                 'use server'
 
@@ -54,7 +54,7 @@ export default async function Auth() {
                             </div>
                         </div>
                     </CardContent>
-                    <CardFooter className="footer">
+                    <CardFooter className="auth_footer">
                         <Button type={'submit'}>Войти</Button>
                         <a href={ROUTES.registration} className="underline hover:opacity-80">У меня нет аккаунта</a>
                     </CardFooter>
