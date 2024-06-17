@@ -7,8 +7,68 @@ import qs from "qs"
 export default async function Home() {
     const session = await auth()
 
+    const queryString = qs.stringify(Object.assign(
+        {
+            populate: '*',
+        },
+        session?.user.type === 'Студент'
+            ? {
+                filters: {
+                    direction: {
+                        '$eqi': (await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/students?${qs.stringify({
+                            populate: 'group.direction',
+                            filters: {
+                                users_permissions_user: {
+                                    id: {
+                                        '$eq': session?.user.id
+                                    }
+                                }
+                            }
+                        })}`, {
+                            headers: {
+                                "Content-Type": "application/json",
+                                Authorization: `Bearer ${session?.user.token}`
+                            }
+                        })
+                            .then(res => res.json())).data[0].group.direction.id
+                    },
+                    status: {
+                        status_name: {
+                            '$eqi': 'открыто'
+                        }
+                    }
+                }
+            }
+            : undefined,
+        session?.user.type === 'Партнёр'
+            ? {
+                filters: {
+                    partner: {
+                        id: {
+                            '$eqi': (await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/partners?${qs.stringify({
+                                populate: 'group.direction',
+                                filters: {
+                                    users_permissions_user: {
+                                        id: {
+                                            '$eq': session?.user.id
+                                        }
+                                    }
+                                }
+                            })}`, {
+                                headers: {
+                                    "Content-Type": "application/json",
+                                    Authorization: `Bearer ${session?.user.token}`
+                                }
+                            })
+                                .then(res => res.json())).data[0].id
+                        }
+                    },
+                }
+            }
+            : undefined
+    ))
 
-    const data = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/applications?${qs.stringify({populate: '*'})}`, {
+    const data = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/applications?${queryString}`, {
         headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${session?.user.token}`
