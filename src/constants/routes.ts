@@ -7,4 +7,5 @@
     new_application: '/application/new',
     application: '/application' /* + "/:id" */,
     dates: '/dates',
+    previewfile: '/previewfile'
 }

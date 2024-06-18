@@ -15,29 +15,32 @@ export default async function Home() {
         session?.user.type === 'Студент'
             ? {
                 filters: {
-                    direction: {
-                        '$eqi': (await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/students?${qs.stringify({
-                            populate: 'group.direction',
-                            filters: {
-                                users_permissions_user: {
-                                    id: {
-                                        '$eq': session?.user.id
-                                    }
+                    '$and': [{
+                        direction: {
+                            '$eqi': (await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/students?${qs.stringify({
+                                populate: 'group.direction',
+                                filters: {
+                                    users_permissions_user: {
+                                        id: {
+                                            '$eq': session?.user.id
+                                        }
+                                    },
                                 }
+                            })}`, {
+                                headers: {
+                                    "Content-Type": "application/json",
+                                    Authorization: `Bearer ${session?.user.token}`
+                                }
+                            })
+                                .then(res => res.json())).data[0].group.direction.id
+                        },
+                    }, {
+                        status: {
+                            status_name: {
+                                '$eqi': 'открыто'
                             }
-                        })}`, {
-                            headers: {
-                                "Content-Type": "application/json",
-                                Authorization: `Bearer ${session?.user.token}`
-                            }
-                        })
-                            .then(res => res.json())).data[0].group.direction.id
-                    },
-                    status: {
-                        status_name: {
-                            '$eqi': 'открыто'
                         }
-                    }
+                    }]
                 }
             }
             : undefined,

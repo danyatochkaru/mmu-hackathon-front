@@ -7,6 +7,7 @@ import {Label} from "@/components/ui/label";
 import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
 import UploadFileAction from "@/app/(with-layout)/profile/UploadFile.action";
+import {ROUTES} from "@/constants/routes";
 
 export default async function Profile() {
     const session = await auth()
@@ -54,7 +55,7 @@ export default async function Profile() {
             key: "CV файл",
             value: _data.data[0]?.cv_file ? <Link
                 className={'text-primary underline'}
-                href={`${process.env.NEXT_PUBLIC_STRAPI_URL}${_data.data[0]?.cv_file.url}`}>Скачать</Link> : 'Отсутствует'
+                href={`${ROUTES.previewfile}?uri=${decodeURIComponent(process.env.NEXT_PUBLIC_STRAPI_URL + _data.data[0]?.cv_file.url)}`}>Открыть</Link> : 'Отсутствует'
         })
     }
 

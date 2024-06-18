@@ -2,17 +2,27 @@
 
 import "@cyntler/react-doc-viewer/dist/index.css";
 import DocViewer, {DocViewerRenderers} from "@cyntler/react-doc-viewer";
+import {useEffect} from "react";
+import {useRouter} from "next/navigation";
+import {ROUTES} from "@/constants/routes";
 
-function App() {
-    const docs = [
-        {uri: "http://danyatochka.ru:1337/uploads/MMU_lichnyj_kabinet_partnera_docx_16fcb44832.pdf"},
-    ];
+export default function PreviewPage({searchParams}: { searchParams: { uri: string } }) {
+    const router = useRouter()
+
+    useEffect(() => {
+        if (!searchParams.uri) {
+            router.replace(ROUTES.home)
+        }
+    }, [searchParams.uri]);
 
     return (
         <div className="container">
-            <DocViewer documents={docs} pluginRenderers={DocViewerRenderers}/>;
+            <DocViewer
+                documents={[
+                    {uri: searchParams.uri},
+                ]}
+                pluginRenderers={DocViewerRenderers}
+            />
         </div>
     )
 }
-
-export default App;

@@ -166,7 +166,7 @@ export default async function ApplicationPage({params}: { params: { id: string }
                                     <TableCell>{i.student?.cv_file
                                         ? <Link
                                             className={'text-primary underline'}
-                                            href={`${process.env.NEXT_PUBLIC_STRAPI_URL}${i.student?.cv_file.url}`}>Скачать</Link>
+                                            href={`${ROUTES.previewfile}?uri=${decodeURIComponent(process.env.NEXT_PUBLIC_STRAPI_URL + i.student?.cv_file.url)}`}>Открыть</Link>
                                         : <p>Отсутствует</p>
                                     }</TableCell>
                                     <TableCell
