@@ -6,6 +6,7 @@ export default async function Stats() {
     const session = await auth()
 
     const queryData = qs.stringify({
+        filters: {},
         pagination: {limit: 1}
     })
 

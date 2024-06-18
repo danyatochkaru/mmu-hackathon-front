@@ -4,6 +4,7 @@ import {auth} from "@/lib/auth";
 import {revalidatePath} from "next/cache";
 import {redirect} from "next/navigation";
 import qs from "qs";
+import {addDays} from "date-fns";
 
 const work_types: Record<string, string> = {
     'practice': 'практика',
@@ -63,6 +64,9 @@ export default async function NewApplicationAction(formData: FormData) {
             console.error(err)
         })
 
+    const date_from = new Date(JSON.parse(dates as string)?.from)
+    const date_to = new Date(JSON.parse(dates as string)?.to)
+
     const data = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/applications`, {
         method: 'POST',
         headers: {
@@ -75,8 +79,8 @@ export default async function NewApplicationAction(formData: FormData) {
                 task_description: description,
                 requirements: requirements,
                 number_of_students: students_count,
-                start_date: dates ? JSON.parse(dates as string).from : undefined,
-                end_date: dates ? JSON.parse(dates as string).to : undefined,
+                start_date: dates ? addDays(date_from, 1).toISOString() : undefined,
+                end_date: dates ? addDays(date_to, 1).toISOString() : undefined,
                 paid_internship: paid_internship === 'on',
                 results: results || undefined,
                 partner: partnerData?.data[0]?.id,
