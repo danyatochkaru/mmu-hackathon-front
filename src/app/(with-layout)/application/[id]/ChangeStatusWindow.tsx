@@ -26,6 +26,7 @@ export default function ChangeStatusWindow({children, statuses, currentStatusId}
                 <DialogTitle>Изменение статуса у заявки #{params.id}</DialogTitle>
                 <DialogDescription>
                     <form className={'flex flex-col gap-y-4 mt-5'} action={ChangeStatusAction}>
+                        <input type={'hidden'} name={'application_id'} value={params.id}/>
                         <Select
                             name={'application_status'}
                             required

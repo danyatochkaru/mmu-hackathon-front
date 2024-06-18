@@ -43,9 +43,24 @@ export default async function ApplicationPage({params}: { params: { id: string }
             console.error(err)
         })
 
+    if (!data.data) {
+        return <div className="p-3 flex flex-col gap-y-4">
+            <h2 className="font-semibold text-2xl">Заявка не найдена</h2>
+        </div>
+    }
+
+    if (session?.user.type === 'Студент' && (data.data.status.status_name === 'Отозвано'
+        || data.data.status.status_name === 'Заблокировано'
+        || data.data.status.status_name === 'Закрыто')) {
+        return <p>Набор на данную практику закончился</p>
+    }
+
     return <div className="p-3 flex flex-col gap-y-4">
         <div className={'flex items-center gap-x-2'}>
             <h2 className="font-semibold text-2xl">{data.data.partner.company_name}</h2>
+            <div><Badge className={'capitalize'}>{data.data.application_type}</Badge></div>
+            {data.data.paid_internship &&
+                <div><Badge>Оплачивается</Badge></div>}
             <div><Badge>{data.data.status.status_name}</Badge></div>
         </div>
         {
@@ -76,14 +91,6 @@ export default async function ApplicationPage({params}: { params: { id: string }
 
         }
         <div>
-            <p className="text-muted-foreground text-sm">Описание задачи</p>
-            <p className="font-medium leading-none text-md">{data.data.task_description}</p>
-        </div>
-        <div>
-            <p className="text-muted-foreground text-sm">Требования к студентам</p>
-            <p className="font-medium leading-none text-md">{data.data.requirements}</p>
-        </div>
-        <div>
             <p className="text-muted-foreground text-sm">Направление</p>
             <p className="font-medium leading-none text-md">{data.data.direction.direction_name}</p>
         </div>
@@ -91,6 +98,18 @@ export default async function ApplicationPage({params}: { params: { id: string }
             <p className="text-muted-foreground text-sm">Количество студентов</p>
             <p className="font-medium leading-none text-md">{data.data.number_of_students}</p>
         </div>
+        <div>
+            <p className="text-muted-foreground text-sm">Описание задачи</p>
+            <p className="font-medium leading-none text-md">{data.data.task_description}</p>
+        </div>
+        <div>
+            <p className="text-muted-foreground text-sm">Требования к студентам</p>
+            <p className="font-medium leading-none text-md">{data.data.requirements}</p>
+        </div>
+        {data.data.results && <div>
+            <p className="text-muted-foreground text-sm">Результаты</p>
+            <p className="font-medium leading-none text-md">{data.data.results}</p>
+        </div>}
         {data.data.start_date && <div>
             <p className="text-muted-foreground text-sm">Сроки</p>
             <p className="font-medium leading-none text-md">с {new Date(data.data.start_date).toLocaleDateString()} по {new Date(data.data.end_date).toLocaleDateString()}</p>

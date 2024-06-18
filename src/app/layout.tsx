@@ -11,7 +11,8 @@ const fontSans = FontSans({
 })
 
 export const metadata: Metadata = {
-    title: "ММУ Партнёр"
+    title: "ММУ Партнёр",
+    icons: {icon: 'favicon.jpg'}
 };
 
 export default async function RootLayout({
