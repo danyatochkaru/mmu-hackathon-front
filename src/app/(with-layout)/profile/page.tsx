@@ -85,6 +85,10 @@ export default async function Profile() {
             key: "Название компании",
             value: _data.data[0].company_name
         })
+        additional_data.push({
+            key: "Должность",
+            value: _data.data[0].position
+        })
     }
 
     if (data.role.name === 'Rop') {
