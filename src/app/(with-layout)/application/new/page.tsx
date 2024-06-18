@@ -26,7 +26,7 @@ export default function NewApplicationPage() {
                        placeholder="Введите число студентов"/>
             </div>
         </div>
-        <DateWithType practice_dates={[new Date().toISOString(), new Date().toISOString()]}/>
+        <DateWithType defaultDates={{from: new Date(), to: new Date()}}/>
         <div>
             <p className="text-muted-foreground text-md">Результаты стажировки (необязательно)</p>
             <Textarea name={'results'} placeholder="Введите результаты стажировки"/>
