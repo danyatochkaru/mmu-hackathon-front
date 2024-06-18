@@ -127,7 +127,8 @@ registrationAction(formData: FormData) {
 
     await signIn('credentials', {
         email,
-        password
+        password,
+        redirect: false,
     })
         .catch(err => console.error(err))
 

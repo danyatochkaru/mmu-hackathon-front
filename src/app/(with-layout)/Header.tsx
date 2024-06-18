@@ -8,7 +8,7 @@ import {useSession} from "next-auth/react";
 export default function Header() {
     const pathname = usePathname()
     const params = useParams()
-    const [title, setTitle] = useState<string>('ММУ Партнёр')
+    const [title, setTitle] = useState<string>('ММУ ЛК «Партнёр»')
     const {data: session} = useSession()
 
     useEffect(

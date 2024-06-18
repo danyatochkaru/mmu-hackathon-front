@@ -4,8 +4,10 @@ import {ROUTES} from "@/constants/routes";
 import {auth} from "@/lib/auth";
 import qs from "qs"
 
-export default async function Home() {
+export default async function Home(props: any) {
     const session = await auth()
+
+    console.log(props.searchParams.page)
 
     const queryString = qs.stringify(Object.assign(
         {
@@ -106,6 +108,12 @@ export default async function Home() {
             console.error(err)
         })
 
+    console.log(data)
+
+    if (!data.data) {
+        return <p>Ошибка</p>
+    }
+
     return (
         <div>
             <p>Всего заявок: {data.meta.pagination.total}</p>
@@ -137,7 +145,7 @@ export default async function Home() {
                                 </TableCell>
                                 <TableCell>
                                     <Link href={link}>
-                                        <p className={'line-clamp-1'}>{app.task_description}</p>
+                                        <p className={'line-clamp-1 max-w-lg overflow-clip'}>{app.task_description}</p>
                                     </Link>
                                 </TableCell>
                                 <TableCell>
