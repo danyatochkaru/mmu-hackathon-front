@@ -7,6 +7,7 @@ import ChangeStatusWindow from "@/app/(with-layout)/application/[id]/ChangeStatu
 import Link from "next/link";
 import {ROUTES} from "@/constants/routes";
 import RemoveApplicationAction from "@/app/(with-layout)/application/[id]/RemoveApplication.action";
+import CopyApplicationAction from "@/app/(with-layout)/application/[id]/CopyApplication.action";
 
 export default async function ApplicationPage({params}: { params: { id: string } }) {
     const session = await auth()
@@ -86,7 +87,10 @@ export default async function ApplicationPage({params}: { params: { id: string }
                     }
                     {
                         (session?.user.type === 'Партнёр' || session?.user.type === 'Администратор') &&
-                        (<Button size={'sm'} className="text-sm w-fit">Скопировать</Button>)
+                        (<form action={CopyApplicationAction}>
+                            <input type={'hidden'} name={'application_id'} value={params.id}/>
+                            <Button size={'sm'} className="text-sm w-fit">Скопировать</Button>
+                        </form>)
                     }
                     <Link href={`${ROUTES.application}/${params.id}/edit`}>
                         <Button size={'sm'}

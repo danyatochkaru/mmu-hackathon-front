@@ -28,7 +28,7 @@ export default function Header() {
                         return 'Профиль'
                     }
                     default: {
-                        const re = new RegExp(`^${ROUTES.application}\/[0-9]$`)
+                        const re = new RegExp(`^${ROUTES.application}\/[0-9]+$`)
                         if (re.test(pathname) && params.id) {
                             const application = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/applications/${params.id}`, {
                                 headers: {

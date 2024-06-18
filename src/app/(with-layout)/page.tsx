@@ -112,7 +112,8 @@ export default async function Home() {
             <Table>
                 <TableHeader className="bg-[#ffd600]">
                     <TableRow>
-                        <TableHead className="w-80 text-black">Название компании</TableHead>
+                        <TableHead className="text-black">#</TableHead>
+                        <TableHead className="min-w-52 text-black">Название компании</TableHead>
                         <TableHead className="text-black">Описание</TableHead>
                         <TableHead className="text-black w-48">Тип</TableHead>
                         <TableHead className="text-black w-48">Статус</TableHead>
@@ -124,6 +125,11 @@ export default async function Home() {
                         data.data?.map((app: any) => {
                             const link = `${ROUTES.application}/${app.id}`
                             return <TableRow key={app.company_name}>
+                                <TableCell className="font-medium">
+                                    <Link href={link}>
+                                        <p className={'font-semibold'}>{app.id}</p>
+                                    </Link>
+                                </TableCell>
                                 <TableCell className="font-medium">
                                     <Link href={link}>
                                         <p className={'font-semibold'}>{app.partner?.company_name}</p>
