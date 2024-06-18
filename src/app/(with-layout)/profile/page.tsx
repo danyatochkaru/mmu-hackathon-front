@@ -40,7 +40,6 @@ export default async function Profile() {
             .catch(err => {
                 console.error(err)
             })
-
         additional_data.push({
             key: "Группа",
             value: _data.data[0]?.group.group_name
@@ -96,7 +95,7 @@ export default async function Profile() {
             .catch(err => {
                 console.error(err)
             })
-        
+
         additional_data.push({
             key: "Направление",
             value: _data.data[0].direction.direction_name
