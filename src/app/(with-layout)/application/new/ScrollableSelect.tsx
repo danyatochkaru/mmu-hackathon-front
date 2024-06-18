@@ -1,31 +1,41 @@
+'use client'
+
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue,} from "@/components/ui/select"
-import {auth} from "@/lib/auth";
+import {useEffect, useState} from "react";
 
-export async function SelectScrollable() {
-    const session = await auth()
+export function SelectScrollable({directions}: { directions: any }) {
+    const [selected, setSelected] = useState<string>()
+    const [direction, setDirection] = useState<any>()
 
-    const data = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/directions`, {
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${session?.user.token}`
-        }
-    })
-        .then(res => res.json())
-        .catch(err => {
-            console.error(err)
-        })
+    useEffect(() => {
+        setDirection(directions.find((i: any) => `${i.id}-${i.direction_name}` === selected))
+    }, [selected]);
 
     return (
-        <Select name={'direction'}>
-            <SelectTrigger className="min-w-[300px]">
-                <SelectValue placeholder="Выберите направление"/>
-            </SelectTrigger>
-            <SelectContent>
-                {data.data.map((i: any) => (
-                    <SelectItem value={`${i.id}-${i.direction_name}`}
-                                key={i.direction_name}>{i.direction_name}</SelectItem>
-                ))}
-            </SelectContent>
-        </Select>
+        <>
+            <Select name={'direction'} onValueChange={v => setSelected(v)} value={selected}>
+                <SelectTrigger className="min-w-[300px]">
+                    <SelectValue placeholder="Выберите направление"/>
+                </SelectTrigger>
+                <SelectContent>
+                    {directions.map((i: any) => (
+                        <SelectItem value={`${i.id}-${i.direction_name}`}
+                                    key={i.direction_name}>{i.direction_name}</SelectItem>
+                    ))}
+                </SelectContent>
+            </Select>
+            {
+                direction && direction?.practice_start &&
+                <p className="text-sm font-medium leading-none mt-1">
+                    {`Практика с ${
+                        new Date(direction?.practice_start)?.toLocaleDateString()
+                    }${
+                        direction?.practice_end && ' по '
+                    }${
+                        new Date(direction?.practice_end)?.toLocaleDateString()
+                    }`}
+                </p>
+            }
+        </>
     )
 }

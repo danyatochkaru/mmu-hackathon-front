@@ -39,7 +39,7 @@ export default function DateWithType({defaultDates, defaultType, isPaid}: {
             {selectedValue === 'internship' &&
                 <div>
                     <p className="text-muted-foreground text-md">Сроки</p>
-                    <DatePickerWithRange defaultDates={defaultDates}/>
+                    <DatePickerWithRange/>
                 </div>
             }
             {selectedValue === 'practice' && defaultDates &&

@@ -12,10 +12,7 @@ const links = [
     {name: "Создать заявку", href: ROUTES.new_application, view_for: ['partner']},
     {name: "Даты практик", href: ROUTES.dates, view_for: ['rop']},
     {name: "Статистика и отчетность", href: ROUTES.stats, view_for: ['admin', 'rop']},
-
-
 ]
-
 
 export default async function AppLayout(props: PropsWithChildren) {
     const session = await auth()

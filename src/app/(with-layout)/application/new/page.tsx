@@ -4,8 +4,23 @@ import {Input} from "@/components/ui/input"
 import {Button} from "@/components/ui/button";
 import DateWithType from "@/app/(with-layout)/application/new/DateWithType";
 import NewApplicationAction from "@/app/(with-layout)/application/new/NewApplication.action";
+import {auth} from "@/lib/auth";
 
-export default function NewApplicationPage() {
+export default async function NewApplicationPage() {
+    const session = await auth()
+
+    const directions = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/directions`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${session?.user.token}`
+        }
+    })
+        .then(res => res.json())
+        .catch(err => {
+            console.error(err)
+        })
+
     return <form className="p-3 flex flex-col gap-y-4" action={NewApplicationAction}>
         <div>
             <p className="text-muted-foreground text-md">Описание задачи</p>
@@ -18,7 +33,7 @@ export default function NewApplicationPage() {
         <div className={'flex gap-4 flex-wrap'}>
             <div>
                 <p className="text-muted-foreground text-md">Направление</p>
-                <SelectScrollable/>
+                <SelectScrollable directions={directions.data}/>
             </div>
             <div>
                 <p className="text-muted-foreground text-md">Количество студентов</p>
@@ -26,7 +41,7 @@ export default function NewApplicationPage() {
                        placeholder="Введите число студентов"/>
             </div>
         </div>
-        <DateWithType defaultDates={{from: new Date(), to: new Date()}}/>
+        <DateWithType/>
         <div>
             <p className="text-muted-foreground text-md">Результаты стажировки (необязательно)</p>
             <Textarea name={'results'} placeholder="Введите результаты стажировки"/>

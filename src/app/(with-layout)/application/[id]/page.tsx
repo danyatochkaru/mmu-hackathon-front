@@ -6,6 +6,7 @@ import {Badge} from "@/components/ui/badge";
 import ChangeStatusWindow from "@/app/(with-layout)/application/[id]/ChangeStatusWindow";
 import Link from "next/link";
 import {ROUTES} from "@/constants/routes";
+import RemoveApplicationAction from "@/app/(with-layout)/application/[id]/RemoveApplication.action";
 
 export default async function ApplicationPage({params}: { params: { id: string } }) {
     const session = await auth()
@@ -91,7 +92,10 @@ export default async function ApplicationPage({params}: { params: { id: string }
                         <Button size={'sm'}
                                 className="text-sm w-fit">Изменить</Button>
                     </Link>
-                    <Button size={'sm'} className="text-sm w-fit">Удалить</Button>
+                    <form action={RemoveApplicationAction}>
+                        <input type={'hidden'} name={'application_id'} value={params.id}/>
+                        <Button type={'submit'} size={'sm'} className="text-sm w-fit">Удалить</Button>
+                    </form>
                 </div>
 
         }

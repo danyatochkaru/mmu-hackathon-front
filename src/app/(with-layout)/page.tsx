@@ -106,8 +106,6 @@ export default async function Home() {
             console.error(err)
         })
 
-    console.log(data)
-
     return (
         <div>
             <p>Всего заявок: {data.meta.pagination.total}</p>

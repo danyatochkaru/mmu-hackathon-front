@@ -38,10 +38,11 @@ export function DatePickerWithRange({
                         <CalendarIcon className="mr-2 h-4 w-4"/>
                         {date?.from ? (
                             date.to ? (
-                                <>
-                                    {format(date.from, "dd MMM y", {locale: ru})} -{" "}
-                                    {format(date.to, "dd MMM y", {locale: ru})}
-                                </>
+                                <>{`${
+                                    format(date.from, "dd MMM y", {locale: ru})
+                                } - ${
+                                    format(date.to, "dd MMM y", {locale: ru})
+                                }`}</>
                             ) : (
                                 format(date.from, "dd MMM y", {locale: ru})
                             )
