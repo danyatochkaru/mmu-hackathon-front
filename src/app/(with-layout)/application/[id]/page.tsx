@@ -21,6 +21,7 @@ export default async function ApplicationPage({params}: { params: { id: string }
             'responses.cv_file',
             'responses.response_status',
             'responses.student',
+            'responses.student.cv_file',
             'responses.student.group',
             'responses.student.group.direction',
             'responses.student.users_permissions_user'
@@ -151,7 +152,7 @@ export default async function ApplicationPage({params}: { params: { id: string }
                                 <TableHead className="w-80 text-black">ФИО студента</TableHead>
                                 <TableHead className="text-black">Группа</TableHead>
                                 <TableHead className="text-black">Направление</TableHead>
-                                <TableHead className="text-black">Статус</TableHead>
+                                <TableHead className="text-black">CV</TableHead>
                                 <TableHead className="text-right w-48 text-black">Дата подачи отклика</TableHead>
                             </TableRow>
                         </TableHeader>
@@ -162,7 +163,12 @@ export default async function ApplicationPage({params}: { params: { id: string }
                                         className="font-medium">{i.student.users_permissions_user.username}</TableCell>
                                     <TableCell>{i.student.group.group_name}</TableCell>
                                     <TableCell>{i.student.group.direction.direction_name}</TableCell>
-                                    <TableCell>{i.response_status?.response_status}</TableCell>
+                                    <TableCell>{i.student?.cv_file
+                                        ? <Link
+                                            className={'text-primary underline'}
+                                            href={`${process.env.NEXT_PUBLIC_STRAPI_URL}${i.student?.cv_file.url}`}>Скачать</Link>
+                                        : <p>Отсутствует</p>
+                                    }</TableCell>
                                     <TableCell
                                         className="text-right w-48">
                                         {new Date(i.createdAt as string).toLocaleString('ru', {
