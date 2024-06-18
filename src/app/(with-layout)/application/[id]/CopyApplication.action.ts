@@ -65,8 +65,6 @@ export default async function CopyApplicationAction(formData: FormData) {
             console.error(err)
         })
 
-    console.log(newAppData)
-
     const route = `${process.env.BASE_URL}/application/${newAppData.data?.id}?successMessage=${encodeURIComponent('Заявка скопирована.')}`
     revalidatePath(route)
     redirect(route)

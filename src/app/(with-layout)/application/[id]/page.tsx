@@ -8,6 +8,7 @@ import Link from "next/link";
 import {ROUTES} from "@/constants/routes";
 import RemoveApplicationAction from "@/app/(with-layout)/application/[id]/RemoveApplication.action";
 import CopyApplicationAction from "@/app/(with-layout)/application/[id]/CopyApplication.action";
+import ResponseApplicationAction from "@/app/(with-layout)/application/[id]/ResponseApplication.action";
 
 export default async function ApplicationPage({params}: { params: { id: string } }) {
     const session = await auth()
@@ -74,7 +75,14 @@ export default async function ApplicationPage({params}: { params: { id: string }
                         || data.data.status.status_name === 'Заблокировано'
                         || data.data.status.status_name === 'Закрыто')
                         ? <p>Набор на данную практику закончился</p>
-                        : <Button size={'sm'} className="text-sm w-fit">Откликнуться</Button>
+                        : <form action={ResponseApplicationAction}>
+                            <input type={'hidden'} name={'application_id'} value={params.id}/>
+                            {data.data.responses.length > 0
+                            && data.data.responses.some((i: any) => String(i.student.users_permissions_user.id) == String(session?.user.id))
+                                ? <p>Вы оставили отклик</p>
+                                : <Button size={'sm'} className="text-sm w-fit">Откликнуться</Button>
+                            }
+                        </form>
                 )
                 : <div className={"flex gap-x-2"}>
                     {
@@ -154,7 +162,7 @@ export default async function ApplicationPage({params}: { params: { id: string }
                                         className="font-medium">{i.student.users_permissions_user.username}</TableCell>
                                     <TableCell>{i.student.group.group_name}</TableCell>
                                     <TableCell>{i.student.group.direction.direction_name}</TableCell>
-                                    <TableCell>{i.response_status.response_status}</TableCell>
+                                    <TableCell>{i.response_status?.response_status}</TableCell>
                                     <TableCell
                                         className="text-right w-48">
                                         {new Date(i.createdAt as string).toLocaleString('ru', {

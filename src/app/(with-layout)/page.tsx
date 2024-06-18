@@ -4,10 +4,8 @@ import {ROUTES} from "@/constants/routes";
 import {auth} from "@/lib/auth";
 import qs from "qs"
 
-export default async function Home(props: any) {
+export default async function Home() {
     const session = await auth()
-
-    console.log(props.searchParams.page)
 
     const queryString = qs.stringify(Object.assign(
         {
@@ -107,8 +105,6 @@ export default async function Home(props: any) {
         .catch(err => {
             console.error(err)
         })
-
-    console.log(data)
 
     if (!data.data) {
         return <p>Ошибка</p>
