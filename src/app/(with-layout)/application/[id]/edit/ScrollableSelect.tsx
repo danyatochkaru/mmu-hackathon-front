@@ -17,17 +17,19 @@ export async function SelectScrollable({defaultDirection}: { defaultDirection?: 
 
     const _default = data.data.find((i: any) => i.id === defaultDirection)
 
-    return (
-        <Select name={'direction'} defaultValue={_default ? `${_default.id}-${_default.direction_name}` : undefined}>
-            <SelectTrigger className="min-w-[300px]">
-                <SelectValue placeholder="Выберите направление"/>
-            </SelectTrigger>
-            <SelectContent>
-                {data.data.map((i: any) => (
-                    <SelectItem value={`${i.id}-${i.direction_name}`}
-                                key={i.direction_name}>{i.direction_name}</SelectItem>
-                ))}
-            </SelectContent>
-        </Select>
+    return (<>
+            <Select name={'direction'}
+                    defaultValue={_default ? `${_default.id}-${_default.direction_name}` : undefined}>
+                <SelectTrigger className="min-w-[300px]">
+                    <SelectValue placeholder="Выберите направление"/>
+                </SelectTrigger>
+                <SelectContent>
+                    {data.data.map((i: any) => (
+                        <SelectItem value={`${i.id}-${i.direction_name}`}
+                                    key={i.direction_name}>{i.direction_name}</SelectItem>
+                    ))}
+                </SelectContent>
+            </Select>
+        </>
     )
 }
