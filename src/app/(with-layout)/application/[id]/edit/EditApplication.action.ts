@@ -10,8 +10,9 @@ const work_types: Record<string, string> = {
     'internship': 'стажировка'
 }
 
-export default async function NewApplicationAction(formData: FormData) {
+export default async function EditApplicationAction(formData: FormData) {
     const {
+        application_id,
         description,
         requirements,
         students_count,
@@ -63,8 +64,8 @@ export default async function NewApplicationAction(formData: FormData) {
             console.error(err)
         })
 
-    const data = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/applications`, {
-        method: 'POST',
+    const data = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/applications/${application_id}`, {
+        method: 'PUT',
         headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${session?.user.token}`

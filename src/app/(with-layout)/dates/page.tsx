@@ -5,7 +5,7 @@ import {Button} from "@/components/ui/button";
 
 export default async function Home() {
     const session = await auth()
-    
+
     const data = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/rops?${qs.stringify({
         populate: "*",
         filters: {
@@ -26,12 +26,13 @@ export default async function Home() {
         })
 
     return <form className={'flex flex-col gap-y-4'}>
-        <p className="text-muted-foreground text-md">Даты стажировки для
-            направления {`"${data.data[0].direction.direction_name}"`}</p>
-        <div className={'max-w-7xl'}>
+        <p className="text-muted-foreground text-md">
+            {`Даты стажировки для направления "${data.data[0].direction.direction_name}"`}
+        </p>
+        <div>
             <DatePickerWithRange defaultDates={{
-                from: new Date(data.data[0].direction.practice_start),
-                to: new Date(data.data[0].direction.practice_end)
+                from: new Date(data.data[0].direction.practice_start ?? undefined),
+                to: new Date(data.data[0].direction.practice_end ?? undefined)
             }}/>
         </div>
         <div>

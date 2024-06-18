@@ -111,7 +111,7 @@ export default async function Home() {
     return (
         <div>
             <p>Всего заявок: {data.meta.pagination.total}</p>
-            <Table className="max-w-7xl">
+            <Table>
                 <TableHeader className="bg-[#ffd600]">
                     <TableRow>
                         <TableHead className="w-80 text-black">Название компании</TableHead>
@@ -133,7 +133,7 @@ export default async function Home() {
                                 </TableCell>
                                 <TableCell>
                                     <Link href={link}>
-                                        <p>{app.task_description}</p>
+                                        <p className={'line-clamp-1'}>{app.task_description}</p>
                                     </Link>
                                 </TableCell>
                                 <TableCell>

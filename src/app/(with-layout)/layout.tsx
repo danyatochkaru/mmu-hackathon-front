@@ -72,7 +72,7 @@ export default async function AppLayout(props: PropsWithChildren) {
         </nav>
         <div className="w-full">
             <Header/>
-            <main className={'p-6'}>
+            <main className={'p-6 max-w-7xl'}>
                 {props.children}
             </main>
         </div>

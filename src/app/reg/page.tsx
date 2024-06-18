@@ -5,7 +5,7 @@ import {Label} from "@/components/ui/label"
 import {ROUTES} from "@/constants/routes";
 import AccountType from "@/app/reg/AccountType";
 import {auth} from "@/lib/auth";
-import {registrationAction} from "@/app/reg/RegistrationAction";
+import {registrationAction} from "@/app/reg/Registration.action";
 import {redirect} from "next/navigation";
 
 export default async function Registration() {

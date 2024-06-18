@@ -12,7 +12,7 @@ import {PropsWithChildren} from "react";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 import {Button} from "@/components/ui/button";
 import {useParams} from "next/navigation";
-import ChangeStatusAction from "@/app/(with-layout)/application/[id]/ChangeStatusAction";
+import ChangeStatusAction from "@/app/(with-layout)/application/[id]/ChangeStatus.action";
 
 export default function ChangeStatusWindow({children, statuses, currentStatusId}: PropsWithChildren & {
     statuses: { id: number, name: string }[],

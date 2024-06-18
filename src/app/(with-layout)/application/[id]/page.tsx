@@ -4,6 +4,8 @@ import {Button} from "@/components/ui/button";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
 import {Badge} from "@/components/ui/badge";
 import ChangeStatusWindow from "@/app/(with-layout)/application/[id]/ChangeStatusWindow";
+import Link from "next/link";
+import {ROUTES} from "@/constants/routes";
 
 export default async function ApplicationPage({params}: { params: { id: string } }) {
     const session = await auth()
@@ -85,7 +87,10 @@ export default async function ApplicationPage({params}: { params: { id: string }
                         (session?.user.type === 'Партнёр' || session?.user.type === 'Администратор') &&
                         (<Button size={'sm'} className="text-sm w-fit">Скопировать</Button>)
                     }
-                    <Button size={'sm'} className="text-sm w-fit">Изменить</Button>
+                    <Link href={`${ROUTES.application}/${params.id}/edit`}>
+                        <Button size={'sm'}
+                                className="text-sm w-fit">Изменить</Button>
+                    </Link>
                     <Button size={'sm'} className="text-sm w-fit">Удалить</Button>
                 </div>
 
@@ -112,11 +117,19 @@ export default async function ApplicationPage({params}: { params: { id: string }
         </div>}
         {data.data.start_date && <div>
             <p className="text-muted-foreground text-sm">Сроки</p>
-            <p className="font-medium leading-none text-md">с {new Date(data.data.start_date).toLocaleDateString()} по {new Date(data.data.end_date).toLocaleDateString()}</p>
+            <p className="font-medium leading-none text-md">{`с ${
+                new Date(data.data.start_date).toLocaleDateString('ru', {
+                    timeZone: 'Europe/Moscow'
+                })
+            } по ${
+                new Date(data.data.end_date).toLocaleDateString('ru', {
+                    timeZone: 'Europe/Moscow'
+                })
+            }`}</p>
         </div>}
         {session?.user.type !== 'Студент'
             && (data.data.responses.length > 0
-                    ? <Table className="max-w-7xl">
+                    ? <Table>
                         <TableHeader className="bg-[#ffd600]">
                             <TableRow>
                                 <TableHead className="w-80 text-black">ФИО студента</TableHead>

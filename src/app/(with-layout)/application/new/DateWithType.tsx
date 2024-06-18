@@ -8,8 +8,12 @@ import {Label} from "@/components/ui/label";
 
 type valueType = "practice" | "internship" | null;
 
-export default function DateWithType({practice_dates}: { practice_dates?: [string, string] }) {
-    const [selectedValue, setSelectedValue] = useState<valueType>(null);
+export default function DateWithType({defaultDates, defaultType, isPaid}: {
+    defaultType?: valueType,
+    defaultDates?: { from?: Date, to?: Date }
+    isPaid?: boolean
+}) {
+    const [selectedValue, setSelectedValue] = useState<valueType>(defaultType ?? null);
 
     return <>
         <div className={'flex items-center gap-4 flex-wrap'}>
@@ -35,19 +39,19 @@ export default function DateWithType({practice_dates}: { practice_dates?: [strin
             {selectedValue === 'internship' &&
                 <div>
                     <p className="text-muted-foreground text-md">Сроки</p>
-                    <DatePickerWithRange/>
+                    <DatePickerWithRange defaultDates={defaultDates}/>
                 </div>
             }
-            {selectedValue === 'practice' && practice_dates &&
+            {selectedValue === 'practice' && defaultDates &&
                 <div>
                     <p className="text-muted-foreground text-md">Сроки</p>
-                    <p className="font-medium leading-none text-md">с {new Date(practice_dates[0]).toLocaleDateString()} по {new Date(practice_dates[1]).toLocaleDateString()}</p>
+                    <p className="font-medium leading-none text-md">с {defaultDates.from?.toLocaleDateString()} по {defaultDates.to?.toLocaleDateString()}</p>
                 </div>
             }
         </div>
         {
             selectedValue === 'internship' && <div className={'flex items-center space-x-2'}>
-                <Switch id={'paidInternship'} name={'paid_internship'}/>
+                <Switch id={'paidInternship'} defaultChecked={isPaid} name={'paid_internship'}/>
                 <Label className={'text-sm'} htmlFor="paidInternship">Оплачиваемая стажировка</Label>
             </div>
         }

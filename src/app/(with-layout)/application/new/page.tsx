@@ -6,7 +6,7 @@ import DateWithType from "@/app/(with-layout)/application/new/DateWithType";
 import NewApplicationAction from "@/app/(with-layout)/application/new/NewApplication.action";
 
 export default function NewApplicationPage() {
-    return <form className="max-w-7xl p-3 flex flex-col gap-y-4" action={NewApplicationAction}>
+    return <form className="p-3 flex flex-col gap-y-4" action={NewApplicationAction}>
         <div>
             <p className="text-muted-foreground text-md">Описание задачи</p>
             <Textarea name={'description'} required placeholder="Введите описание задачи"/>
