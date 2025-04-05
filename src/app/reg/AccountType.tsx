@@ -64,7 +64,7 @@ export default function AccountType({groups, directions}: {
                             <SelectValue placeholder="Выберите группу"/>
                         </SelectTrigger>
                         <SelectContent position="popper">
-                            {groups.map(group => (
+                            {groups?.map(group => (
                                 <SelectItem key={group.group_name} value={String(group.id)}>{group.group_name}</SelectItem>
                             ))}
                         </SelectContent>
@@ -84,7 +84,7 @@ export default function AccountType({groups, directions}: {
                             <SelectValue placeholder="Выберите направление"/>
                         </SelectTrigger>
                         <SelectContent position="popper">
-                            {directions.map(group => (
+                            {directions?.map(group => (
                                 <SelectItem key={group.direction_name}
                                             value={String(group.id)}>{group.direction_name}</SelectItem>
                             ))}
