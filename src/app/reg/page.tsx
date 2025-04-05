@@ -60,11 +60,11 @@ export default async function Registration() {
                                        placeholder="Придумайте пароль..."/>
                             </div>
                             <AccountType
-                                directions={directions.data.map((i: any) => ({
+                                directions={directions.data?.map((i: any) => ({
                                     id: i.id,
                                     direction_name: i.direction_name
                                 }))}
-                                groups={groups.data.map((i: any) => ({id: i.id, group_name: i.group_name}))}/>
+                                groups={groups.data?.map((i: any) => ({id: i.id, group_name: i.group_name}))}/>
                         </div>
                     </CardContent>
                     <CardFooter className="auth_footer">
