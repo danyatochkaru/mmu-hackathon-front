@@ -26,7 +26,7 @@ export default async function Profile() {
 
     const additional_data: (Record<'key', string> & Record<'value', string | ReactNode>)[] = []
 
-    if (data.role.name === 'Student') {
+    if (data.role.type === 'student') {
         const _data = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/students?${qs.stringify({
             populate: '*',
             filters: {
@@ -59,7 +59,7 @@ export default async function Profile() {
         })
     }
 
-    if (data.role.name === 'Partner') {
+    if (data.role.type === 'partner') {
         const _data = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/partners?${qs.stringify({
             populate: '*',
             filters: {
@@ -91,7 +91,7 @@ export default async function Profile() {
         })
     }
 
-    if (data.role.name === 'Rop') {
+    if (data.role.type === 'rop') {
         const _data = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/rops?${qs.stringify({
             populate: '*',
             filters: {
