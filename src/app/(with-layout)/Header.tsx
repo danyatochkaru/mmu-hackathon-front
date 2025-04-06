@@ -41,7 +41,7 @@ export default function Header() {
                                     console.error(err)
                                 })
 
-                            return `Заявка #${application?.data?.id}`
+                            return `Заявка #${application?.data?.id || params.id}`
                         }
 
                         return 'Страница'
